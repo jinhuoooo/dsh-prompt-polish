@@ -1,0 +1,102 @@
+{
+  "_comment": "dsh-prompt-polish 配置说明 (v2.3) — 开箱即用：默认使用内置 GLM-4.5-Flash 引擎（维护者 Key 混淆内置，无需任何配置）。也可在 DSH 设置页「润色设置」可视化配置。以下配置任选其一，按优先级从上到下尝试",
+  "_providers": {
+    "builtin": "内置默认 — 维护者 GLM Key 混淆内置，零配置开箱即用",
+    "shared": "共享润色代理 — 作者维护的免费 Cloudflare Worker，无需任何 Key（内置 Key 失效时自动降级到此）",
+    "workbuddy": "WorkBuddy 开放平台 API — 需要 WB_ACCESS_KEY / WB_SECRET_KEY / WB_AGENT_ID（在 open.workbuddy.qq.com 创建智能体后获取）",
+    "glm": "智谱 GLM-4-Flash — 完全免费，去 open.bigmodel.cn 注册获取 API Key",
+    "siliconflow": "SiliconFlow 免费额度 — 注册即送，siliconflow.cn",
+    "hunyuan": "腾讯混元 Lite — WorkBuddy 同源模型，轻量便宜",
+    "custom": "任意 OpenAI 兼容 API — 填写 baseURL + apiKey + model"
+  },
+
+  "_example_0_shared_zero_config": {
+    "_comment": "默认即此行为，无需配置文件。如需覆盖共享代理地址：",
+    "api": {
+      "enabled": true,
+      "provider": "shared",
+      "sharedEndpoint": "https://your-own-proxy.workers.dev/polish",
+      "timeoutMs": 30000
+    }
+  },
+
+  "_example_1_workbuddy": {
+    "api": {
+      "enabled": true,
+      "provider": "workbuddy",
+      "wbAccessKey": "你的 WB_ACCESS_KEY",
+      "wbSecretKey": "你的 WB_SECRET_KEY",
+      "wbAgentId": "你的智能体 ID",
+      "timeoutMs": 60000
+    }
+  },
+
+  "_example_2_glm_free": {
+    "api": {
+      "enabled": true,
+      "provider": "glm",
+      "model": "glm-4.5-flash",
+      "apiKey": "你的智谱 API Key（免费）",
+      "timeoutMs": 60000,
+      "temperature": 0.2
+    }
+  },
+
+  "_example_2b_glm_encoded_key": {
+    "_comment": "不想在配置里放明文 key 时，用混淆编码存放（node tools/encode-key.js <key> 生成）",
+    "api": {
+      "enabled": true,
+      "provider": "glm",
+      "model": "glm-4.5-flash",
+      "apiKeyEnc": "编码后的 key（node tools/encode-key.js 生成）",
+      "timeoutMs": 60000,
+      "temperature": 0.2
+    }
+  },
+
+  "_example_2c_env_var": {
+    "_comment": "最安全：key 只存在环境变量里，配置文件零泄露",
+    "api": {
+      "enabled": true,
+      "provider": "glm",
+      "model": "glm-4.5-flash",
+      "apiKeyEnv": "ZHIPU_API_KEY",
+      "timeoutMs": 60000,
+      "temperature": 0.2
+    }
+  },
+
+  "_example_3_siliconflow_free": {
+    "api": {
+      "enabled": true,
+      "provider": "siliconflow",
+      "apiKey": "你的 SiliconFlow API Key",
+      "timeoutMs": 30000,
+      "temperature": 0.4
+    }
+  },
+
+  "_example_4_hunyuan": {
+    "api": {
+      "enabled": true,
+      "provider": "hunyuan",
+      "apiKey": "你的腾讯云 API Key",
+      "timeoutMs": 30000,
+      "temperature": 0.4
+    }
+  },
+
+  "_example_5_custom": {
+    "api": {
+      "enabled": true,
+      "provider": "custom",
+      "baseURL": "https://your-api-endpoint.com/v1",
+      "apiKey": "your-api-key",
+      "model": "your-model-name",
+      "timeoutMs": 30000,
+      "temperature": 0.4
+    }
+  },
+
+  "_fallback_chain": "配置的 API（含默认 shared 代理）→ 本地 Ollama/LM Studio → 本地规则引擎（离线也能用）"
+}

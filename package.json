@@ -1,0 +1,32 @@
+{
+  "name": "dsh-prompt-polish",
+  "description": "One-click AI text polish for DSH — WorkBuddy humanizer-style sparkle button. v2.3: Built-in GLM-4.5-Flash engine (zero-config), in-app settings page for model API config, hardened worker rate-limit. Supports WorkBuddy Open Platform API, 智谱 GLM-4-Flash (free), SiliconFlow (free), Tencent Hunyuan, and any OpenAI-compatible API. Falls back to local rules when no API is available. · DSH 一键 AI 润色：v2.3 内置 GLM 引擎开箱即用、新增设置页可视化配置 API、Worker 限流防绕过。配置见 config.example.json。",
+  "version": "2.3.0",
+  "type": "module",
+  "main": "lib/index.js",
+  "license": "MIT",
+  "exports": {
+    ".": {
+      "default": "./lib/index.js"
+    },
+    "./client": "./client/client.js",
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./package.json": "./package.json"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "inject": [
+        "@deepseek-ai/dsh-client-runtime",
+        "@deepseek-ai/dsh-client-locale",
+        "@deepseek-ai/dsh-client-ui-slots"
+      ],
+      "platform": "web"
+    }
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "^4.0.1"
+  }
+}

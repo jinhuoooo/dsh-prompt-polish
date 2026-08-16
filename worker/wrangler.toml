@@ -1,0 +1,8 @@
+name = "dsh-prompt-polish-proxy"
+main = "worker.js"
+compatibility_date = "2026-01-01"
+
+# The Zhipu API key is stored as a Worker secret, never in this file:
+#   npx wrangler secret put ZHIPU_API_KEY
+# Optional: pin a different (still free) model:
+#   npx wrangler secret put ZHIPU_MODEL   # e.g. glm-4.5-flash
